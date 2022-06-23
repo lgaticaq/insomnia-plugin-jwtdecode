@@ -1,4 +1,5 @@
 const base64 = require('base-64')
+const jq = require('jaycue')
 
 module.exports.templateTags = [{
     name: 'jwtdecode',
@@ -57,7 +58,7 @@ function decode(jwtPart, claim) {
         throw new Error(`JWT cannot be decoded (JSON error): ${error.message}`)
     }
 
-    claimResult = jsonParsedPart[claim]
+    claimResult = jq(jsonParsedPart, claim)
 
     if(claimResult === undefined && claim.length > 0) {
         throw new Error(`Claim not found in JWT: ${claim}`)
